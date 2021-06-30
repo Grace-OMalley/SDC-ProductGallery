@@ -26,3 +26,4 @@ dist/
 
 #environment variables
 *.env*
+config.js
