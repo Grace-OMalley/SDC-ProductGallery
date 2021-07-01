@@ -14,14 +14,12 @@ let seedScript = (dbCount = 1) => {
   }
   axios.post(url, bulk)
     .then((res) => {
-      console.log('couchDB Seeded 1000:', res);
       if (dbCounter < 10000000) {
-        bulk.docs = [];
         seedScript(dbCounter);
       }
     })
     .catch((err) => {
-      console.log('couchDB res - ERROR:', err);
+      console.log('couchDB RES - ERROR:', err);
     });
 };
 seedScript();
