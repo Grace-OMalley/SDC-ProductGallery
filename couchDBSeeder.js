@@ -9,7 +9,7 @@ let seedScript = (dbCount = 1) => {
     docs: []
   };
   for (var i = 0; i < 5000; i++) {
-    bulk.docs.push({productId: dbCounter, images: ['https://picsum.photos/200', 'https://picsum.photos/200', 'https://picsum.photos/200']});
+    bulk.docs.push({productId: dbCounter, images: ['https://picsum.photos/200', 'https://picsum.photos/200', 'https://picsum.photos/200', 'https://picsum.photos/200', 'https://picsum.photos/200', 'https://picsum.photos/200', 'https://picsum.photos/200', 'https://picsum.photos/200', 'https://picsum.photos/200', 'https://picsum.photos/200']});
     dbCounter++;
   }
   axios.post(url, bulk)
