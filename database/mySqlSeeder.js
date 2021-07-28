@@ -1,4 +1,4 @@
-const config = require('./config.js');
+const config = require('../config.js');
 const mysql = require('mysql');
 
 const connection = mysql.createConnection({
@@ -19,7 +19,8 @@ connection.connect((err) => {
 const seedScript = (id = 1, count = 1, tagCycle = 1) => {
   let productId = id;
   let cycle = count;
-  let imgUrl = 'https://picsum.photos/200';
+  let rndPic = Math.floor(Math.random() * 1001);
+  let imgUrl = `https://picsum.photos/id/${rndPic}/200/300`;
   let rndNum = Math.floor(Math.random() * (6 - 1) + 1);
   let rndTag = ['tech', 'animals', 'arch', 'people', 'nature'];
   let options = [productId, imgUrl, rndNum];

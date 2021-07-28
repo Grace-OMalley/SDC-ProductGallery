@@ -1,8 +1,9 @@
+require('newrelic');
 const express = require('express');
 const app = express();
 const cors = require('cors');
 const bodyParser = require('body-parser');
-const db = require('../database/index.js');
+const db = require('../database/index2.js');
 const path = require('path');
 const port = 3003;
 
@@ -50,19 +51,35 @@ app.post('/images', (req, res) => {
 //Read
 app.get('/images/:productId', (req, res) => {
   const productId = req.params.productId;
-  db.models.ProductImages.findOne({productId}, (err, product) => {
-    if (product !== null) {
-      console.log(product);
-      res.json(product);
+  db.read(productId, (err, data) => {
+    if (err) {
+      res.status(400).send(err);
     } else {
-      res
-        .status(404)
-        .json({
-          productId,
-          images: [],
-        });
+      let imgArray = [];
+      for (let i = 0; i < data.length; i++) {
+        imgArray.push(data[i].img_url);
+      }
+      res.status(200).json({
+        productId: data[0].product_id,
+        images: imgArray
+      });
     }
   });
+
+  // const productId = req.params.productId;
+  // db.models.ProductImages.findOne({productId}, (err, product) => {
+  //   if (product !== null) {
+  //     console.log(product);
+  //     res.json(product);
+  //   } else {
+  //     res
+  //       .status(404)
+  //       .json({
+  //         productId,
+  //         images: [],
+  //       });
+  //   }
+  // });
 });
 
 //Update
