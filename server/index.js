@@ -9,6 +9,7 @@ const port = 3003;
 
 app.use(express.static(path.join(__dirname, '/../client/dist')));
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true}));
 app.use(cors());
 
 const sendIndex = (req, res) => {
@@ -20,19 +21,29 @@ app.get('*/dp/:productId', sendIndex);
 
 //Create
 app.post('/images', (req, res) => {
-  db.models.ProductImages.countDocuments({}, (err, size) => {
+  const reqBody = req.body;
+  console.log('SERVER - POST: ', req.body);
+  db.create(reqBody, (err, data) => {
     if (err) {
       res.status(400).send(err);
     } else {
-      db.models.ProductImages.create({productId: size + 1, images: req.body.images}, (err, data) => {
-        if (err) {
-          res.status(400).send(err);
-        } else {
-          res.status(200).json(data);
-        }
-      });
+      res.status(200).send(data);
     }
   });
+  //Less Old Code
+  // db.models.ProductImages.countDocuments({}, (err, size) => {
+  //   if (err) {
+  //     res.status(400).send(err);
+  //   } else {
+  //     db.models.ProductImages.create({productId: size + 1, images: req.body.images}, (err, data) => {
+  //       if (err) {
+  //         res.status(400).send(err);
+  //       } else {
+  //         res.status(200).json(data);
+  //       }
+  //     });
+  //   }
+  // });
   // Old Code
   // db.models.ProductImages.insert({productId}, (err, product) => {
   //   if (product !== null) {

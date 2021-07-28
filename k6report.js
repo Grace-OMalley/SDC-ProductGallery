@@ -177,9 +177,9 @@ constant_request_rate ✓ [======================================] 000/200 VUs  
      vus............................: 200    min=200       max=200
      vus_max........................: 200    min=200       max=200
 
-  // GET @ 100000 RPS
+// GET @ 100000 RPS
 
-  import http from "k6/http";
+import http from "k6/http";
 import { sleep } from "k6";
 
 export let options = {
@@ -237,3 +237,187 @@ constant_request_rate ✓ [======================================] 000/400 VUs  
      iterations.....................: 61522   2039.617013/s
      vus............................: 400     min=400        max=400
      vus_max........................: 400     min=400        max=400
+
+// POST @ 100 RPS
+
+import http from "k6/http";
+import { sleep } from "k6";
+
+export let options = {
+  scenarios: {
+    constant_request_rate: {
+      executor: "constant-arrival-rate",
+      rate: 100,
+      timeUnit: "1s",
+      duration: "30s",
+      preAllocatedVUs: 100,
+      maxVUs: 200,
+    },
+  },
+};
+export default function () {
+  const BASE_URL = 'http://localhost:3003/images';
+  let rndPic = Math.floor(Math.random() * 1001);
+  let imgUrl = `https://picsum.photos/id/${rndPic}/200/300`;
+
+  http.post(`${BASE_URL}`, JSON.stringify({images: [imgUrl]}), { headers: { 'Content-Type': 'application/json' } });
+}
+
+Mac-mini:ProductGallery DevonPoston$ k6 run k6script.js
+
+          /\      |‾‾| /‾‾/   /‾‾/
+     /\  /  \     |  |/  /   /  /
+    /  \/    \    |     (   /   ‾‾\
+   /          \   |  |\  \ |  (‾)  |
+  / __________ \  |__| \__\ \_____/ .io
+
+  execution: local
+     script: k6script.js
+     output: -
+
+  scenarios: (100.00%) 1 scenario, 200 max VUs, 1m0s max duration (incl. graceful stop):
+           * constant_request_rate: 100.00 iterations/s for 30s (maxVUs: 100-200, gracefulStop: 30s)
+
+
+running (0m30.0s), 000/100 VUs, 3001 complete and 0 interrupted iterations
+constant_request_rate ✓ [======================================] 000/100 VUs  30s  100 iters/s
+
+     data_received..................: 1.2 MB 40 kB/s
+     data_sent......................: 570 kB 19 kB/s
+     http_req_blocked...............: avg=10.24µs min=2µs    med=3µs    max=2.63ms   p(90)=5µs    p(95)=12µs
+     http_req_connecting............: avg=4.96µs  min=0s     med=0s     max=2.58ms   p(90)=0s     p(95)=0s
+     http_req_duration..............: avg=2.69ms  min=988µs  med=1.5ms  max=178.83ms p(90)=2.23ms p(95)=2.84ms
+       { expected_response:true }...: avg=2.69ms  min=988µs  med=1.5ms  max=178.83ms p(90)=2.23ms p(95)=2.84ms
+     http_req_failed................: 0.00%  ✓ 0          ✗ 3001
+     http_req_receiving.............: avg=44.08µs min=14µs   med=40µs   max=225µs    p(90)=58µs   p(95)=69µs
+     http_req_sending...............: avg=22.45µs min=14µs   med=19µs   max=620µs    p(90)=30µs   p(95)=40µs
+     http_req_tls_handshaking.......: avg=0s      min=0s     med=0s     max=0s       p(90)=0s     p(95)=0s
+     http_req_waiting...............: avg=2.62ms  min=946µs  med=1.43ms max=178.77ms p(90)=2.14ms p(95)=2.78ms
+     http_reqs......................: 3001   100.029172/s
+     iteration_duration.............: avg=2.83ms  min=1.07ms med=1.62ms max=178.97ms p(90)=2.45ms p(95)=3.05ms
+     iterations.....................: 3001   100.029172/s
+     vus............................: 100    min=100      max=100
+     vus_max........................: 100    min=100      max=100
+
+// POST @ 1000 RPS
+
+import http from "k6/http";
+import { sleep } from "k6";
+
+export let options = {
+  scenarios: {
+    constant_request_rate: {
+      executor: "constant-arrival-rate",
+      rate: 1000,
+      timeUnit: "1s",
+      duration: "30s",
+      preAllocatedVUs: 100,
+      maxVUs: 200,
+    },
+  },
+};
+export default function () {
+  const BASE_URL = 'http://localhost:3003/images';
+  let rndPic = Math.floor(Math.random() * 1001);
+  let imgUrl = `https://picsum.photos/id/${rndPic}/200/300`;
+
+  http.post(`${BASE_URL}`, JSON.stringify({'images': [imgUrl]}), { headers: { 'Content-Type': 'application/json' } });
+}
+
+Mac-mini:ProductGallery DevonPoston$ k6 run k6script.js
+
+          /\      |‾‾| /‾‾/   /‾‾/
+     /\  /  \     |  |/  /   /  /
+    /  \/    \    |     (   /   ‾‾\
+   /          \   |  |\  \ |  (‾)  |
+  / __________ \  |__| \__\ \_____/ .io
+
+  execution: local
+     script: k6script.js
+     output: -
+
+  scenarios: (100.00%) 1 scenario, 200 max VUs, 1m0s max duration (incl. graceful stop):
+           * constant_request_rate: 1000.00 iterations/s for 30s (maxVUs: 100-200, gracefulStop: 30s)
+
+WARN[0000] Insufficient VUs, reached 200 active VUs and cannot initialize more  executor=constant-arrival-rate scenario=constant_request_rate
+
+running (0m30.1s), 000/200 VUs, 28390 complete and 0 interrupted iterations
+constant_request_rate ✓ [======================================] 000/200 VUs  30s  1000 iters/s
+
+     data_received..................: 11 MB  373 kB/s
+     data_sent......................: 5.4 MB 179 kB/s
+     dropped_iterations.............: 1611   53.515214/s
+     http_req_blocked...............: avg=4.65µs   min=1µs      med=3µs      max=950µs    p(90)=5µs      p(95)=8µs
+     http_req_connecting............: avg=795ns    min=0s       med=0s       max=380µs    p(90)=0s       p(95)=0s
+     http_req_duration..............: avg=129.45ms min=663µs    med=134.46ms max=356.1ms  p(90)=234.8ms  p(95)=257.99ms
+       { expected_response:true }...: avg=129.45ms min=663µs    med=134.46ms max=356.1ms  p(90)=234.8ms  p(95)=257.99ms
+     http_req_failed................: 0.00%  ✓ 0         ✗ 28390
+     http_req_receiving.............: avg=34.5µs   min=12µs     med=29µs     max=773µs    p(90)=53µs     p(95)=66µs
+     http_req_sending...............: avg=19.55µs  min=7µs      med=15µs     max=1.19ms   p(90)=31µs     p(95)=41µs
+     http_req_tls_handshaking.......: avg=0s       min=0s       med=0s       max=0s       p(90)=0s       p(95)=0s
+     http_req_waiting...............: avg=129.4ms  min=630µs    med=134.42ms max=356.02ms p(90)=234.76ms p(95)=257.91ms
+     http_reqs......................: 28390  943.07692/s
+     iteration_duration.............: avg=129.56ms min=719.38µs med=134.58ms max=356.34ms p(90)=234.9ms  p(95)=258.1ms
+     iterations.....................: 28390  943.07692/s
+     vus............................: 200    min=200     max=200
+     vus_max........................: 200    min=200     max=200
+
+// POST @ 10000 RPS
+
+export let options = {
+  scenarios: {
+    constant_request_rate: {
+      executor: "constant-arrival-rate",
+      rate: 10000,
+      timeUnit: "1s",
+      duration: "30s",
+      preAllocatedVUs: 100,
+      maxVUs: 200,
+    },
+  },
+};
+export default function () {
+  const BASE_URL = 'http://localhost:3003/images';
+  let rndPic = Math.floor(Math.random() * 1001);
+  let imgUrl = `https://picsum.photos/id/${rndPic}/200/300`;
+
+  http.post(`${BASE_URL}`, JSON.stringify({'images': [imgUrl]}), { headers: { 'Content-Type': 'application/json' } });
+}
+
+Mac-mini:ProductGallery DevonPoston$ k6 run k6script.js
+
+          /\      |‾‾| /‾‾/   /‾‾/
+     /\  /  \     |  |/  /   /  /
+    /  \/    \    |     (   /   ‾‾\
+   /          \   |  |\  \ |  (‾)  |
+  / __________ \  |__| \__\ \_____/ .io
+
+  execution: local
+     script: k6script.js
+     output: -
+
+  scenarios: (100.00%) 1 scenario, 200 max VUs, 1m0s max duration (incl. graceful stop):
+           * constant_request_rate: 10000.00 iterations/s for 30s (maxVUs: 100-200, gracefulStop: 30s)
+
+WARN[0000] Insufficient VUs, reached 200 active VUs and cannot initialize more  executor=constant-arrival-rate scenario=constant_request_rate
+
+running (0m30.1s), 000/200 VUs, 30801 complete and 0 interrupted iterations
+constant_request_rate ✓ [======================================] 000/200 VUs  30s  10000 iters/s
+
+     data_received..................: 12 MB  404 kB/s
+     data_sent......................: 5.8 MB 194 kB/s
+     dropped_iterations.............: 269200 8947.670817/s
+     http_req_blocked...............: avg=3.78µs   min=1µs     med=2µs      max=1.32ms   p(90)=3µs      p(95)=4µs
+     http_req_connecting............: avg=794ns    min=0s      med=0s       max=485µs    p(90)=0s       p(95)=0s
+     http_req_duration..............: avg=194.82ms min=88.02ms med=184.86ms max=420.31ms p(90)=237.12ms p(95)=262.45ms
+       { expected_response:true }...: avg=194.82ms min=88.02ms med=184.86ms max=420.31ms p(90)=237.12ms p(95)=262.45ms
+     http_req_failed................: 0.00%  ✓ 0           ✗ 30801
+     http_req_receiving.............: avg=36.5µs   min=12µs    med=31µs     max=2.48ms   p(90)=55µs     p(95)=67µs
+     http_req_sending...............: avg=15.42µs  min=7µs     med=13µs     max=606µs    p(90)=23µs     p(95)=28µs
+     http_req_tls_handshaking.......: avg=0s       min=0s      med=0s       max=0s       p(90)=0s       p(95)=0s
+     http_req_waiting...............: avg=194.77ms min=87.98ms med=184.81ms max=420.25ms p(90)=237.06ms p(95)=262.41ms
+     http_reqs......................: 30801  1023.763777/s
+     iteration_duration.............: avg=194.92ms min=88.09ms med=184.95ms max=420.41ms p(90)=237.22ms p(95)=262.57ms
+     iterations.....................: 30801  1023.763777/s
+     vus............................: 200    min=200       max=200
+     vus_max........................: 200    min=200       max=200
