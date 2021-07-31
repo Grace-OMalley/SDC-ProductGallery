@@ -1,4 +1,5 @@
 require('newrelic');
+const compression = require('compression');
 const express = require('express');
 const app = express();
 const cors = require('cors');
@@ -7,6 +8,7 @@ const db = require('../database/index2.js');
 const path = require('path');
 const port = 3003;
 
+app.use(compression());
 app.use(express.static(path.join(__dirname, '/../client/dist')));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
@@ -21,6 +23,7 @@ app.get('*/dp/:productId', sendIndex);
 
 //Create
 app.post('/images', (req, res) => {
+  console.log('SERVICE GET');
   const reqBody = req.body;
   console.log('SERVER - POST: ', req.body);
   db.create(reqBody, (err, data) => {
@@ -61,6 +64,7 @@ app.post('/images', (req, res) => {
 
 //Read
 app.get('/images/:productId', (req, res) => {
+  console.log('SERVICE GET');
   const productId = req.params.productId;
   db.read(productId, (err, data) => {
     if (err) {
