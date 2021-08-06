@@ -16,7 +16,8 @@ export let options = {
   },
 };
 export default function () {
-  const BASE_URL = 'http://localhost:3003/dp/9000000';
+  let rndId = Math.floor(Math.random() * (10000000 - 9000000) + 9000000);
+  const BASE_URL = `http://localhost:3003/dp/${rndId}`;
 
   http.get(`${BASE_URL}`);
 }
@@ -59,9 +60,6 @@ constant_request_rate ✓ [======================================] 000/100 VUs  
 
 // GET @ 1000 RPS
 
-import http from "k6/http";
-import { sleep } from "k6";
-
 export let options = {
   scenarios: {
     constant_request_rate: {
@@ -75,7 +73,8 @@ export let options = {
   },
 };
 export default function () {
-  const BASE_URL = 'http://localhost:3003/dp/9000000';
+  let rndId = Math.floor(Math.random() * (10000000 - 9000000) + 9000000);
+  const BASE_URL = `http://localhost:3003/dp/${rndId}`;
 
   http.get(`${BASE_URL}`);
 }
@@ -179,9 +178,6 @@ constant_request_rate ✓ [======================================] 000/200 VUs  
 
 // GET @ 100000 RPS
 
-import http from "k6/http";
-import { sleep } from "k6";
-
 export let options = {
   scenarios: {
     constant_request_rate: {
@@ -190,12 +186,13 @@ export let options = {
       timeUnit: "1s",
       duration: "30s",
       preAllocatedVUs: 100,
-      maxVUs: 400,
+      maxVUs: 200,
     },
   },
 };
 export default function () {
-  const BASE_URL = 'http://localhost:3003/dp/9000000';
+  let rndId = Math.floor(Math.random() * (10000000 - 9000000) + 9000000);
+  const BASE_URL = `http://localhost:3003/dp/${rndId}`;
 
   http.get(`${BASE_URL}`);
 }

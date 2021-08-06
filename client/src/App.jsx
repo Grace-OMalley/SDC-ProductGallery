@@ -15,12 +15,12 @@ class App extends React.Component {
     };
     // this.galleryip = env.GALLERY_IP || localhost;
     // this.overviewip = env.OVERVIEW_IP || localhost;
-    this.galleryip = 'localhost';
-    this.overviewip = 'localhost';
+    this.galleryip = '54.193.242.234';
+    // this.overviewip = 'localhost';
   }
 
   componentDidMount() {
-    axios.get(`http://${this.galleryip}:3003/images/` + this.state.productId)
+    axios.get(`http://${this.galleryip}:3000/images/` + this.state.productId)
       .then((res) => {
         console.log('CLIENT - RES:', res.data);
         this.setState(res.data);
