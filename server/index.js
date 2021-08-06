@@ -23,16 +23,15 @@ app.get('*/dp/:productId', sendIndex);
 
 //Create
 app.post('/images', (req, res) => {
-  console.log('SERVICE GET');
-  const reqBody = req.body;
-  console.log('SERVER - POST: ', req.body);
-  db.create(reqBody, (err, data) => {
+  console.log('SERVER - POST: ', req);
+  db.create(req.body, (err, data) => {
     if (err) {
       res.status(400).send(err);
     } else {
       res.status(200).send(data);
     }
   });
+
   //Less Old Code
   // db.models.ProductImages.countDocuments({}, (err, size) => {
   //   if (err) {
