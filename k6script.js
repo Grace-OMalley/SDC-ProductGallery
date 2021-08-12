@@ -16,7 +16,7 @@ export let options = {
 };
 export default function () {
   let rndId = Math.floor(Math.random() * (10000000 - 9000000) + 9000000);
-  const BASE_URL = `http://localhost:3003/images/${rndId}`;
+  const BASE_URL = `http://18.144.11.40:3003/images/${rndId}`;
   http.get(`${BASE_URL}`);
 }
 
@@ -34,7 +34,7 @@ export default function () {
 //   },
 // };
 // export default function () {
-//   const BASE_URL = 'http://localhost:3003/images';
+//   const BASE_URL = 'http://18.144.11.40:3003/images';
 //   let rndPic = Math.floor(Math.random() * 1001);
 //   let imgUrl = `https://picsum.photos/id/${rndPic}/200/300`;
 //   http.post(`${BASE_URL}`, JSON.stringify({'images': [imgUrl]}), { headers: { 'Content-Type': 'application/json' } });

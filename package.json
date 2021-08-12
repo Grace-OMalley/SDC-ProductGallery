@@ -26,10 +26,12 @@
     "express": "^4.17.1",
     "k6": "0.0.0",
     "mongoose": "^5.12.7",
+    "morgan": "^1.10.0",
     "mysql": "^2.18.1",
     "newrelic": "^8.0.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "redis": "^3.1.2",
     "sequelize": "^6.6.4"
   },
   "devDependencies": {
