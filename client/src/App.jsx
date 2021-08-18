@@ -15,12 +15,12 @@ class App extends React.Component {
     };
     // this.galleryip = env.GALLERY_IP || localhost;
     // this.overviewip = env.OVERVIEW_IP || localhost;
-    this.galleryip = '54.193.242.234';
-    // this.overviewip = 'localhost';
-  }
+    this.galleryip = '54.193.242.234:3000';
+    this.overviewip = '54.151.82.224:80';
+  } //proxy or load balancer
 
   componentDidMount() {
-    axios.get(`http://${this.galleryip}:3000/images/` + this.state.productId)
+    axios.get(`http://${this.galleryip}/images/` + this.state.productId)
       .then((res) => {
         console.log('CLIENT - RES:', res.data);
         this.setState(res.data);
@@ -33,15 +33,15 @@ class App extends React.Component {
         }
       });
 
-    // axios.get(`http://${this.overviewip}:3002/overview/` + this.state.productId)
-    //   .then(res => this.setState({productName: res.data.product_name}))
-    //   .catch(err => {
-    //     if (err.response) {
-    //       console.error(err.response);
-    //     } else {
-    //       console.error(err.message + ' - overview API could not be reached', err.config);
-    //     }
-    //   });
+    axios.get(`http://${this.overviewip}/overview/` + this.state.productId)
+      .then(res => this.setState({productName: res.data.product_name}))
+      .catch(err => {
+        if (err.response) {
+          console.error(err.response);
+        } else {
+          // console.error(err.message + ' - overview API could not be reached', err.config);
+        }
+      });
   }
 
   render() {

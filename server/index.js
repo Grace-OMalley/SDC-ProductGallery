@@ -32,7 +32,7 @@ app.get('*/dp/:productId', sendIndex);
 
 //Create
 app.post('/images', (req, res) => {
-  console.log('SERVER - POST: ', req);
+  // console.log('SERVER - POST: ', req);
   db.create(req.body, (err, data) => {
     if (err) {
       res.status(400).send(err);
